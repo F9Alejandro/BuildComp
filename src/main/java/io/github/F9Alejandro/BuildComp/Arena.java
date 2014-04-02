@@ -2,7 +2,7 @@ package io.github.F9Alejandro.BuildComp;
 
 import org.bukkit.Location;
 
-
+//TODO: upon player leaving arena area scoreboard is removed and plot is reset
 public class Arena {
 	private Location min;
 	private Location max;

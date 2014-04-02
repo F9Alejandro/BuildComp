@@ -24,5 +24,11 @@
 	<classpathentry kind="lib" path="C:/Users/Alexander/workspace/.metadata/plugins/WorldEdit.jar" sourcepath="C:/Users/Alexander/workspace/.metadata/plugins/WorldEdit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Alexander/workspace/.metadata/plugins/WorldGuard.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Alexander/workspace/.metadata/plugins/RegionForSale_2.3.jar"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

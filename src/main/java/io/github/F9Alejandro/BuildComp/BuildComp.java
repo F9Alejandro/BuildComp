@@ -22,7 +22,9 @@ import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
-public class main extends JavaPlugin implements Listener {
+public class BuildComp extends JavaPlugin implements Listener {
+	//Short term storing of Variables
+	//TODO: use better method of checking/verifying and storing
 	public HashMap<String, Integer> mapPlayer = new HashMap<String, Integer>();
 	public HashMap<String, Location> arenaLoc = new HashMap<String, Location>();
 	public HashMap<String, Integer> arenaTime = new HashMap<String, Integer>();

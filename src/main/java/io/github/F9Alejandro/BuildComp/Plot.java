@@ -3,7 +3,8 @@ package io.github.F9Alejandro.BuildComp;
 import java.util.List;
 
 import org.bukkit.Location;
-
+//players get their own plots to work in given by world edit
+//TODO: create arena area in which the even is held
 public class Plot {
 	Location min;
 	Location max;
