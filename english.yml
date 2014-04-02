@@ -1,0 +1,5 @@
+MSG1: "&4Nonthing here yet!"
+MSG2: "&9Commands: &bhelp, ? &1join, leave"
+MSG3: "[Build Manager]: &1Teleporting you to Build Arena, "
+MSG4: "&a[Build Manager]: &9Teleporting you to Build Arena, Default"
+# Add additional messages here, then use the method 'getmsg("MSG")'
