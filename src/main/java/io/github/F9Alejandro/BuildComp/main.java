@@ -31,13 +31,34 @@ public class main extends JavaPlugin implements Listener {
 	private String name;
 	
 	public String oegetKey(String arena, Location value){
-		for(String arena : arenaLoc.keySet()){
-			if(arenaLoc.get(arena).equals(value)) 
-				return arena;
+		for(String myarena : arenaLoc.keySet()){
+			if(arenaLoc.get(myarena).equals(value)) 
+				return myarena;
 	}
 		name = null;
 		return name;
 	}
+	
+	// Returns true if a location is within 2 locations, assuming Location[] contains 2 locations ordered [min,max]
+	public boolean isin(Location[] locs,Location loc){
+		if (locs[0].getWorld().equals(loc.getWorld())) {
+			if (loc.getBlockX() < locs[0].getBlockX()) { return false; }
+			if (loc.getBlockX() > locs[1].getBlockX()) { return false; }
+			if (loc.getBlockZ() < locs[0].getBlockZ()) { return false; }
+			if (loc.getBlockZ() > locs[1].getBlockZ()) { return false; }
+			if (loc.getBlockY() < locs[0].getBlockY()) { return false; }
+			if (loc.getBlockY() > locs[1].getBlockY()) { return false; }
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
+	
+	// Checks if a player has a permission
+	//  - returns true if console (i.e. player = null)
+	//  - returns true if player is op
+	//  - supports * node e.g. example.perm.*
     public boolean checkperm(Player player,String perm) {
     	boolean hasperm = false;
     	String[] nodes = perm.split("\\.");
@@ -62,6 +83,8 @@ public class main extends JavaPlugin implements Listener {
     	}
 		return hasperm;
     }
+    
+    // Messages a player (null = console) - supports color codes e.g. &a &1
     private void msg(Player player,String mystring) {
     	if (player==null) {
     		getServer().getConsoleSender().sendMessage(colorise(mystring));
@@ -74,6 +97,8 @@ public class main extends JavaPlugin implements Listener {
     	}
 
     }
+    
+    // Used to convert color codes to proper color.
     public String colorise(String mystring) {
     	String[] codes = {"&1","&2","&3","&4","&5","&6","&7","&8","&9","&0","&a","&b","&c","&d","&e","&f","&r","&l","&m","&n","&o","&k"};
     	for (String code:codes) {
@@ -103,8 +128,10 @@ public class main extends JavaPlugin implements Listener {
  
 	@Override
 	public void onDisable() {
-		getLogger().info("onDisable has been invoked!");
+		// Bukkit automatically prints when the plugin is enabled
 	}
+	
+	// Gets a given message from the language file set in the config.yml
 	public String getmsg(String key) {
 		File yamlFile = new File(getDataFolder(), getConfig().getString("language").toLowerCase()+".yml"); 
 		YamlConfiguration.loadConfiguration(yamlFile);
@@ -116,12 +143,14 @@ public class main extends JavaPlugin implements Listener {
 		}
 	}
 	
-	
+	// You shouldn't have capitols in a permission node.
+	//TODO finish adding all messages to english.yml
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 	    Player player = (Player) sender;
 	    Location location = player.getLocation();
-		if(commandLabel.equalsIgnoreCase("BuCo")){
+	    if((cmd.getName().equalsIgnoreCase("buco"))||(cmd.getName().equalsIgnoreCase("buildcomp"))||(cmd.getName().equalsIgnoreCase("buildcompetition"))) {
 			if(args.length == 0){
+				// You should give the help here, or at least a list of commands
 				msg(player,getmsg("MSG1"));
 			} else if(args[0].equalsIgnoreCase("help")||args[0].equalsIgnoreCase("?")){
 				msg(player,getmsg("MSG2"));
@@ -161,15 +190,18 @@ public class main extends JavaPlugin implements Listener {
 					msg(player,s);
 				}
 				
-			}else if(args[0].equalsIgnoreCase("set")){
-				if(args[1].equalsIgnoreCase("arena")&&checkperm(player,"BuCo.arena.set")){
+			}else if(args[0].equalsIgnoreCase("create")){
+				if(args[1].equalsIgnoreCase("arena")&&checkperm(player,"buco.arena.create")){
+					//TODO use Arena.java class and Plot.java class
+					//TODO save arenas so it doesn't delete during a reload
+					//
 					if(args[2] != null){
-					arenaLoc.put(args[2], location);
+						arenaLoc.put(args[2], location);
 					}
 					else{
 						arenaLoc.put("default", location);
 					}
-				}else if(args[1].equalsIgnoreCase("time")&&checkperm(player,"BuCo.arena.set.time")){
+				}else if(args[1].equalsIgnoreCase("time")&&checkperm(player,"buco.arena.set.time")){
 					int time = 0;
 						time = Integer.parseInt(args[3].toString());
 						/*String name = args[2];*/
@@ -196,7 +228,7 @@ public class main extends JavaPlugin implements Listener {
 				}
 			}
 			else if(args[0].equalsIgnoreCase("remove")){
-				if(args[1].equalsIgnoreCase("arena")&&checkperm(player,"BuCo.arena.remove")){
+				if(args[1].equalsIgnoreCase("arena")&&checkperm(player,"buco.arena.remove")){
 					if(args[2] != null){
 						arenaLoc.remove(args[2]);
 					}
@@ -207,7 +239,7 @@ public class main extends JavaPlugin implements Listener {
 				
 			}
 			else{
-				msg(player,"&4Invalid Arguments, Please refer to /BuCo ?");
+				msg(player,"&4Invalid Arguments, Please refer to /buco ?");
 				}
 		return false;
 			
