@@ -3,31 +3,39 @@
   <groupId>io.github.F9Alejandro</groupId>
   <artifactId>BuildComp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <name>buildcomp</name>
+  <description>This project came to mind when a friend one day tried to make a build competition and I have decided to create a plugin version</description>
+  <packaging>pom</packaging>
+  
+  <organization>
+  		<name>F9Alejandro, Empire92</name>
+  		<url>www.empcraft.com</url>
+  </organization>
+  
+  <modules>
+	<module>BuildComp</module>
+  </modules>
+  
   <build>
       <plugins>
           <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <version>2.4</version>
               <configuration>
-                  <source>1.7</source>
-                  <target>1.7</target>
+                  <descriptor>assembly.xml</descriptor>
+                  <finalname>${project.name v${project.version}</finalname>
+                  <appendAssemblyId>false</appendAssemblyId>
               </configuration>
+              <executions>
+              	<execution>
+              		<id>release</id>
+              		<phase>package</phase>
+              		<goals>
+              			<goal>single</goal>
+              		</goals>
+              	</execution>
+              </executions>
           </plugin>
       </plugins>
    </build>
-   <repositories>
-       <repository>
-           <id>bukkit-repo</id>
-           <url>http://repo.bukkit.org/content/groups/public/</url>
-       </repository>
-   </repositories>
-   <dependencies>
-       <dependency>
-           <groupId>org.bukkit</groupId>
-           <artifactId>bukkit</artifactId>
-           <version>1.6.4-R2.1-SNAPSHOT</version>
-           <type>jar</type>
-           <scope>provided</scope>
-       </dependency>
-   </dependencies>
 </project>
