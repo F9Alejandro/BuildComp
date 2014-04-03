@@ -3,7 +3,7 @@ package io.github.F9Alejandro.BuildComp;
 import java.util.List;
 
 import org.bukkit.Location;
-//players get their own plots to work in given by world edit
+//players get their own plots to work in given by world edit/given permission depending on if there are going to be subplots for each player allowed in the competition
 //TODO: create arena area in which the even is held
 public class Plot {
 	Location min;
