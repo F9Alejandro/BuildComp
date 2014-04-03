@@ -10,9 +10,14 @@ public class Plot {
 	Location max;
 	String owner = null;
 	List<String> members = null;
-	public Plot(Location pos1,Location pos2) {
+	Arena arena;
+	public Plot(Arena myarena,Location pos1,Location pos2) {
+		arena = myarena;
 		min = new Location(pos1.getWorld(), Math.min(pos1.getBlockX(), pos2.getBlockX()), 0, Math.min(pos1.getBlockZ(), pos2.getBlockZ()));
 		max = new Location(pos1.getWorld(), Math.max(pos1.getBlockX(), pos2.getBlockX()), 256, Math.max(pos1.getBlockZ(), pos2.getBlockZ()));
+	}
+	public Arena getArena() {
+		return arena;
 	}
 	public Location getMin() {
 		return min;
@@ -42,6 +47,15 @@ public class Plot {
 			return true;
 		}
 		
+	}
+	public boolean isAllowed(String player) {
+		if (owner.equals(player)) {
+			return true;
+		}
+		if (members.contains(player)) {
+			return true;
+		}
+		return false;
 	}
 	public boolean removeMember(String player) {
 		if (members.contains(player)) {
