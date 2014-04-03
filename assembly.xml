@@ -30,7 +30,6 @@
   <fileSets>
     <fileSet>
       <includes>
-#        <include>README.txt</include>
         <include>LICENSE.txt</include>
       </includes>
     </fileSet>
