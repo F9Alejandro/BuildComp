@@ -1,7 +1,11 @@
 MSG1: "&4Nonthing here yet!"
 MSG2: "&9Commands: &bhelp, ? &1join, leave"
-MSG3: "[Build Manager]: &1Teleporting you to Build Arena, "
+MSG3: "&a[Build Manager]: &1Teleporting you to Build Arena, "
 MSG4: "&a[Build Manager]: &9Teleporting you to Build Arena, Default"
 MSG5: "&cThe build competition has not started yet!"
 MSG6: "&cYou can only edit in your plot!"
+MSG7: "Invalid time period"
+MSG8: "Invalid arena, use /buco arena list"
+MSG9: "/buco time <arena> 20m 15s"
+MSG10: "You must be a player to use this command."
 # Add additional messages here, then use the method 'getmsg("MSG")'

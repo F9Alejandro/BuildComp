@@ -27,26 +27,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BuildComp extends JavaPlugin implements Listener {
 	private HashMap<String, Arena> arenas = new HashMap<String, Arena>();
-	
-	// RECODE THIS
-	private HashMap<String, Integer> mapPlayer = new HashMap<String, Integer>();
-	private HashMap<String, Location> arenaLoc = new HashMap<String, Location>();
-	private HashMap<String, Integer> arenaTime = new HashMap<String, Integer>();
 	// Add the attributes to arena class
 	
 	private int counter;
 	private HashMap<Player, Location> lastLocation = new HashMap<Player, Location>();
 	private List<String> list = new ArrayList<String>(arenaLoc.keySet());
 	private String name;
-	
-	public String oegetKey(String arena, Location value){
-		for(String myarena : arenaLoc.keySet()){
-			if(arenaLoc.get(myarena).equals(value)) 
-				return myarena;
-	}
-		name = null;
-		return name;
-	}
 	
 	// TODO get the plot you are at.
 	public Plot getPlot(Location location) {
@@ -390,23 +376,35 @@ public class BuildComp extends JavaPlugin implements Listener {
 							//TODO save arenas so it doesn't delete during a reload
 							//
 							if(args[2] != null){
-								arenaLoc.put(args[2], location);
+								arenas.put(args[2], location);
 							}
 							else{
 								arenaLoc.put("default", location);
 							}
-						}else if(args[1].equalsIgnoreCase("time")&&checkperm(player,"buco.arena.set.time")){
-							int time = 0;
-								time = Integer.parseInt(args[3].toString());
-								/*String name = args[2];*/
-							if(args[2] != null &&args[3] != null){
-								oegetKey(args[2], location);
-								if(name != null){
-								arenaTime.put(name, time);
-								}
-								else{
-									msg(player,ChatColor.GREEN +"[Build Manager]: " + ChatColor.BLUE + "You must enter a valid arena name");	
-								}
+						}else if(args[0].equalsIgnoreCase("settime")&&checkperm(player,"buco.arena.settime")){
+						      if (args.length > 3) {
+						          try {
+						           Arena arena = getArena(args[2]);
+						           String argtime = "";
+						           for (int i = 3;i<args.length;i++) {
+						            argtime+=args[i]+" ";
+						           }
+						           arena.setTimer(timetosec(argtime.trim()));
+						          }
+						          catch (Exception e) {
+						           if (getArenas().contains(args[2])) {
+						            msg(player,getmsg("MSG7"));
+						           }
+						           else {
+						            msg(player,getmsg("MSG8"));
+						           }
+						           //TODO /buco arena list
+						          }
+						         }
+						         else {
+						          msg(player,getmsg("MSG9"));
+						         }
+						        }
 							}else if(args[2] !=null&&args[3] == null){
 								oegetKey(args[2], location);
 								if(name != null){
@@ -418,7 +416,7 @@ public class BuildComp extends JavaPlugin implements Listener {
 							}else if(args[2] == null){
 								msg(player,ChatColor.GREEN +"[Build Manager]: " + ChatColor.BLUE + "You must enter a valid arena name and time");
 								}
-							}
+							}else if(args[1].equalsIgnoreCase("time")&&checkperm(player,"buco.arena.set.time")){
 						}
 					}
 					else {
@@ -428,7 +426,7 @@ public class BuildComp extends JavaPlugin implements Listener {
 				}
 			}
 			else {
-				msg(player,"You must be a player to use this command.");
+				msg(player,getmsg("MSG10"));
 				// Command sent from console
 				// DO stuff
 			}
