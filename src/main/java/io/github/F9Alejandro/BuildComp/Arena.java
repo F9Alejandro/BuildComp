@@ -15,6 +15,7 @@ public class Arena {
 	private boolean open;
 	private boolean running;
 	private long timer;
+	private long period;
 	public Arena(String name, Location pos1,Location pos2,int plotsize, Location spawn) {
 		if (pos1.getWorld().equals(pos2.getWorld())==false) {
 			throw new IllegalArgumentException("pos1 and pos2 must be in the same world!");
@@ -49,6 +50,7 @@ public class Arena {
 	public void setTimer(Long timestamp) {
 		timer = timestamp;
 	}
+	
 	public Long getTimer() {
 		return timer;
 	}
@@ -64,10 +66,17 @@ public class Arena {
 		running = true;
 	}
 	public void Start() {
+		if (period!=0) {
+			timer = (System.currentTimeMillis()/1000)+period;
+		}
 		open = false;
 		running = true;
 	}
 	public void Stop() {
+		if (running) {
+			//TODO announce to players when arena is stopped
+			//Do voting etc and other post competition tasks
+		}
 		open = false;
 		running = false;
 	}
@@ -109,6 +118,12 @@ public class Arena {
 	}
 	public String getKey() {
 		return key;
+	}
+	public void setPeriod(Long time) {
+		period = time;
+	}
+	public long getPeriod() {
+		return period;
 	}
 }
 

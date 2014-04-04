@@ -8,4 +8,5 @@ MSG7: "Invalid time period"
 MSG8: "Invalid arena, use /buco arena list"
 MSG9: "/buco time <arena> 20m 15s"
 MSG10: "You must be a player to use this command."
+MSG11: "Invalid plot size!"
 # Add additional messages here, then use the method 'getmsg("MSG")'
