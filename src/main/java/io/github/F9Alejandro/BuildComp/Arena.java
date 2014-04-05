@@ -2,7 +2,6 @@ package io.github.F9Alejandro.BuildComp;
 
 import java.util.List;
 
-import org.bukkit.Location;
 
 //TODO: upon player leaving arena area scoreboard is removed and plot is reset
 public class Arena {

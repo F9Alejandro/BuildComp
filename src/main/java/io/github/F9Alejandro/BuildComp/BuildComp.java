@@ -9,7 +9,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Map.Entry;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -27,11 +26,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BuildComp extends JavaPlugin implements Listener {
 	private HashMap<String, Arena> arenas = new HashMap<String, Arena>();
-	
-	
-	private int counter;
+	private Location pos1;
+	private Location pos = null;
+	private Double X = pos.getX();
+	private Double Y = pos.getY();
+	private Double Z = pos.getZ();
+	private Location pos2;
 	private HashMap<Player, Location> lastLocation = new HashMap<Player, Location>();
-	private String name;
 	
 	
 	// TODO get the plot you are at.
@@ -327,6 +328,7 @@ public class BuildComp extends JavaPlugin implements Listener {
 	//TODO finish adding all messages to english.yml
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		// Console will cause exception, better to catch.
+		
 		Player player;
 		try {
 			player = (Player) sender;
@@ -334,10 +336,11 @@ public class BuildComp extends JavaPlugin implements Listener {
 		catch (Exception e) {
 			player = null;
 		}
+		Location location = player.getLocation();
 	    if((cmd.getName().equalsIgnoreCase("buco"))||(cmd.getName().equalsIgnoreCase("buildcomp"))||(cmd.getName().equalsIgnoreCase("buildcompetition"))) {
 			if (player!=null) {
 				if (args.length > 0) {
-					Location location = player.getLocation();
+					
 					if(args[0].equalsIgnoreCase("help")||args[0].equalsIgnoreCase("?")){
 						msg(player,getmsg("MSG2"));
 					} 
@@ -456,13 +459,30 @@ public class BuildComp extends JavaPlugin implements Listener {
 							//TODO no perm message
 						}
 					}
+					else if(args[0].equalsIgnoreCase("setpoint")){
+						if(args[1] != null&&args[1] == "1"){
+							pos = location;
+							pos1 = new Location(player.getWorld(), X, Y, Z);
+						}
+						else if(args[1] != null&&args[1] == "2"){
+							pos = location;
+							pos2 = new Location(player.getWorld(), X, Y, Z);
+						}
+						else if(args[1] != null&&args[1] == "clear"){
+							pos1 = null;
+							pos2 = null;
+							pos = null;
+						}
+						else{	
+							msg(player,"please enter in a point, /buco setpoint 1, 2, clear");
+						}
+					}
 					else if(args[0].equalsIgnoreCase("create")){
 						if(checkperm(player,"buco.arena.create")){
-							int size = 8;
-							if(args[1] != null){
+							if(args[1] != null&&pos1 != null&&pos2 !=null){
 								if (args[2] != null) {
 									try {
-										size = Integer.parseInt(args[3]);
+										Integer.parseInt(args[3]);
 									}
 									catch (Exception e) {
 										msg(player,getmsg("MSG11"));
@@ -471,16 +491,17 @@ public class BuildComp extends JavaPlugin implements Listener {
 								}
 								
 								//TODO  worldedit selection and set it to pos1 and pos2
-//								pos1 = new Location(world, x, y, z);
-//								pos2 = new Location(world, x, y, z);
-								
+								/**pos1 = new Location(world, x, y, z);
+								pos2 = new Location(world, x, y, z);
+								pos1 == setpoint 1
+								pos2 == setpoint 2**/
 								if (getArena(args[1])!=null) {
 									msg(player,"Arena already exists");
 									return false;
 								}
 								else {
-									Arena arena = new Arena(args[2], null, null, size, player.getLocation());
-									// TODO put pos1 and pos2 in place of null ^
+									//Arena arenas = (new Arena(args[2], pos1, pos2, size, player.getLocation()));
+									//TODO put pos1 and pos2 in place of null ^
 								}
 							}
 							else{
