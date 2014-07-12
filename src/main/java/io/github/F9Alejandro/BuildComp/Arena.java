@@ -2,6 +2,8 @@ package io.github.F9Alejandro.BuildComp;
 
 import java.util.List;
 
+import org.bukkit.Location;
+
 
 //TODO: upon player leaving arena area scoreboard is removed and plot is reset
 public class Arena {
@@ -40,16 +42,17 @@ public class Arena {
 		key = name;
 		min = new Location(pos1.getWorld(), Math.min(pos1.getBlockX(), pos2.getBlockX()), 0, Math.min(pos1.getBlockZ(), pos2.getBlockZ()));
 		max = new Location(pos1.getWorld(), Math.max(pos1.getBlockX(), pos2.getBlockX()), 256, Math.max(pos1.getBlockZ(), pos2.getBlockZ()));
-	
-		//TODO create plots based on plotsize
-		
+		for (int i = 0;i<((max.getBlockX()-min.getBlockX())/plotsize);i++) {
+			for (int j = 0;j<((max.getBlockZ()-min.getBlockZ())/plotsize);j++) {
+				plots.add(new Plot(this, min.add(i*plotsize,0,i*plotsize),  min.add((i+1)*plotsize,256,(i+1)*plotsize)));
+			}
+		}
 		//TODO arena events | timers | etc
 	
 	}
 	public void setTimer(Long timestamp) {
 		timer = timestamp;
 	}
-	
 	public Long getTimer() {
 		return timer;
 	}

@@ -21,7 +21,6 @@ public class Scoreboards extends JavaPlugin implements Listener  {
 	Scoreboard scoreboard = null;
 	Objective objective = null;
 	Team team = null;
-	
 //TODO: create scoreboard for each arena with countdown that is global for that scoreboard
 //TODO: create timer to work with scoreboard and some how show the player that has won the build competition
 public void scoreManager(){

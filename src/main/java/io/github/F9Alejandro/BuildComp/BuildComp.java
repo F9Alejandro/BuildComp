@@ -153,8 +153,7 @@ public class BuildComp extends JavaPlugin implements Listener {
     public boolean checkperm(Player player,String perm) {
     	boolean hasperm = false;
     	String[] nodes = perm.split("\\.");
-    	
-    	String n2 = "";
+    	String node = "";
     	if (player==null) {
     		return true;
     	}
@@ -166,8 +165,8 @@ public class BuildComp extends JavaPlugin implements Listener {
     	}
     	else {
     		for(int i = 0; i < nodes.length-1; i++) {
-    			n2+=nodes[i]+".";
-            	if (player.hasPermission(n2+"*")) {
+    			node+=nodes[i]+".";
+            	if (player.hasPermission(node+"*")) {
             		hasperm = true;
             	}
     		}
