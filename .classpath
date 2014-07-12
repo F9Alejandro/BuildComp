@@ -22,10 +22,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="lib/bukkit-1.7.9-R0.3.jar"/>
+	<classpathentry kind="lib" path="lib/WorldEdit.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,6 +1,10 @@
 package io.github.F9Alejandro.BuildComp;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -266,12 +271,38 @@ public class BuildComp extends JavaPlugin implements Listener {
     		return 0;
     	}
     }
-    
+    public void save(Arena arena, String path) {
+    	try {
+    		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
+    		oos.writeObject(arena);
+    		oos.flush();
+    		oos.close();
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    public Arena load(String path) {
+    	try {
+    		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+    		Object result = ois.readObject();
+    		return (Arena) result;
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+    }
 	@Override
 	public void onEnable() {
 		// Runs the timer every second
 		timer.schedule (mytask,0l, 1000);
-		
+		//Loading existing arenas
+		File dir = new File(getDataFolder() + File.separator + "arenas");
+		dir.mkdir();
+		File arenaDir = new File(getDataFolder() + File.separator + "arenas");
+        File[] myarenas = arenaDir.listFiles();
+		for (File arena:myarenas) {
+			addArena(load(arena.getPath()));
+		}
 		// Adding version and language to config.yml
 		// * Using this method you can update the config without erasing values.
 		saveResource("english.yml", true);
@@ -291,7 +322,13 @@ public class BuildComp extends JavaPlugin implements Listener {
  
 	@Override
 	public void onDisable() {
-		// Bukkit automatically prints when the plugin is enabled
+		msg(null,"&a[BuildComp]&7 Saving arenas to file");
+		File dir = new File(getDataFolder() + File.separator + "arenas");
+		dir.mkdir();
+		for (Arena arena:getArenas()) {
+			save(arena, getDataFolder() + File.separator + "arenas" + File.separator + arena.getKey() + ".db");
+		}
+		msg(null,"&a[BuildComp]&7 Done...");
 	}
 	
 	// Gets a given message from the language file set in the config.yml
